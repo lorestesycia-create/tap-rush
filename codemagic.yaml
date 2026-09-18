@@ -19,23 +19,22 @@ workflows:
 
           python3 - <<'PY'
           from pathlib import Path
+          import re
 
-          manifest = Path("android/app/src/main/AndroidManifest.xml")
-          text = manifest.read_text()
+          p = Path("android/app/src/main/AndroidManifest.xml")
+          s = p.read_text()
 
-          if "com.google.android.gms.ads.APPLICATION_ID" not in text:
-              text = text.replace(
-                  "<application",
-                  '<application>\n        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-8854680295966508~8362422277" />\n        <application-placeholder',
-                  1
+          if "com.google.android.gms.ads.APPLICATION_ID" not in s:
+              s, n = re.subn(
+                  r'(<application\b[^>]*>)',
+                  r'\1\n        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-8854680295966508~8362422277" />',
+                  s,
+                  count=1
               )
-              text = text.replace(
-                  "<application-placeholder",
-                  "<application",
-                  1
-              )
+              if n != 1:
+                  raise SystemExit("No se encontro la etiqueta application")
 
-          manifest.write_text(text)
+          p.write_text(s)
           PY
 
       - name: Build APK
