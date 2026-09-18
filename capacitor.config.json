@@ -1,0 +1,8 @@
+{
+  "appId": "com.taprush.game",
+  "appName": "Tap Rush",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}

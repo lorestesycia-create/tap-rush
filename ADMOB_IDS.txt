@@ -1,0 +1,4 @@
+Tap Rush - AdMob
+App ID: ca-app-pub-8854680295966508~8362422277
+Rewarded: ca-app-pub-8854680295966508/5279954200
+Interstitial: ca-app-pub-8854680295966508/6401464189
