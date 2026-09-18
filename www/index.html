@@ -2,7 +2,202 @@
 <style>
 :root{--bg:#090b18;--p:#171b36;--a:#ff3d71;--g:#ffd23f;--ok:#38e09b;--bad:#ff4d5e}*{box-sizing:border-box}body{margin:0;background:#050611;color:#fff;font-family:Arial;overflow:hidden}button{color:inherit;font:inherit}#app{height:100dvh;max-width:560px;margin:auto;position:relative;background:radial-gradient(circle at 50% 15%,#293067,var(--bg) 58%)}.s{position:absolute;inset:0;display:none;padding:18px;overflow:auto}.s.on{display:flex;flex-direction:column}.top{display:flex;justify-content:space-between}.pill{background:#ffffff14;border-radius:30px;padding:10px 14px;font-weight:900}.logo{text-align:center;font-size:56px;font-weight:1000;line-height:.85;margin:55px 0 10px}.logo b{color:var(--g)}.sub{text-align:center;color:#aab1d0;font-weight:800}.menu{margin:auto 0;display:grid;gap:12px}.btn{border:0;border-radius:18px;padding:17px;background:linear-gradient(135deg,var(--a),#ff714d);font-weight:1000;font-size:19px}.alt{background:var(--p)}.gold{background:var(--g);color:#111}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.banner{height:52px;margin-top:auto;border-radius:14px;background:#ffffff09;display:flex;align-items:center;justify-content:center;color:#737b9d;font-size:11px}.back{border:0;background:#ffffff14;border-radius:13px;width:44px;height:44px;font-size:24px}.card{background:#ffffff0d;border:1px solid #ffffff18;border-radius:20px;padding:16px;margin-top:14px}.shop{display:grid;grid-template-columns:1fr 1fr;gap:12px}.theme{height:125px;border:2px solid #ffffff18;border-radius:20px;padding:12px;display:flex;flex-direction:column;justify-content:flex-end;font-weight:900}.theme.sel{border-color:var(--g)}.theme button{border:0;border-radius:10px;padding:8px;background:#0008}.set{display:flex;justify-content:space-between;align-items:center;margin:12px 0}.tog{width:58px;height:32px;border:0;border-radius:30px;background:#555;padding:4px}.tog i{display:block;width:24px;height:24px;border-radius:50%;background:#fff}.tog.on{background:var(--ok)}.tog.on i{margin-left:26px}#game{padding:0;overflow:hidden}#hud{height:78px;padding:14px 8px 8px;display:grid;grid-template-columns:repeat(3,1fr);background:#0d1024}.h{text-align:center;color:#9fa7c9;font-size:11px;font-weight:900}.h b{display:block;color:#fff;font-size:22px}#arena{position:absolute;top:78px;bottom:0;left:0;right:0;overflow:hidden}#prompt{text-align:center;font-size:25px;font-weight:1000;padding-top:25px}.obj{position:absolute;border:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:1000}.good{background:var(--g);color:#111}.bad{background:var(--bad)}.choice{position:absolute;border:0;border-radius:20px;font-weight:1000;font-size:18px}#react{display:none;position:absolute;inset:130px 28px 90px;border-radius:30px;align-items:center;justify-content:center;text-align:center;font-size:32px;font-weight:1000;background:#c83b49}#track{display:none;position:absolute;left:25px;right:25px;top:50%;height:40px;background:#ffffff1c;border-radius:30px}#zone{position:absolute;left:42%;width:16%;height:100%;background:var(--ok)}#needle{position:absolute;width:8px;height:56px;top:-8px;background:#fff;border-radius:6px}#bar{position:absolute;top:0;height:5px;background:var(--g)}.ov{position:absolute;inset:0;background:#070914ee;z-index:20;display:none;align-items:center;justify-content:center;padding:20px}.ov.on{display:flex}.modal{width:100%;background:var(--p);border-radius:26px;padding:23px;text-align:center}.big{font-size:68px;color:var(--g);font-weight:1000}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}.stats div{background:#ffffff0d;padding:12px;border-radius:14px}.stats b{display:block;font-size:23px}.acts{display:grid;gap:9px}.muted{color:#aab1d0}
 </style></head><body><div id="app">
+<section id="home" class="s on"><div class="top"><div class="pill">🏆 <span id="hb">0</span></div><div class="pill">🪙 <span id="hc">0</span></div></div><div class="logo">TAP<br><b>RUSH</b></div><div class="sub">⚡ ¿CUÁNTO AGUANTAS?</div><div class="menu"><button class="btn" id="play">▶ JUGAR</button><div class="row"><button class="btn alt" id="shopB">🎨 TIENDA</button><button class="btn alt" id="setB">⚙️ AJUSTES</button></div></div><div class="banner">ZONA DE BANNER · SOLO MENÚ/RESULTADOS</div></section>
 
-<section id="home" class="s on">
-<div class="top"><div class="pill">🏆 <span id="hb">0</span></div><div class="pill">🪙 <span id="hc">0</span></div></div>
-<div class="logo">TAP<br
+<section id="shop" class="s"><div class="top"><button class="back home">‹</button><div class="pill">🪙 <span id="sc">0</span></div></div><h2>🎨 Temas</h2><div id="themes" class="shop"></div></section>
+
+<section id="settings" class="s"><div class="top"><button class="back home">‹</button><div class="pill">AJUSTES</div></div><div class="card"><div class="set"><b>🔊 Sonido</b><button id="snd" class="tog"><i></i></button></div><div class="set"><b>📳 Vibración</b><button id="vib" class="tog"><i></i></button></div></div></section>
+
+<section id="game" class="s"><div id="hud"><div class="h">PUNTOS<b id="score">0</b></div><div class="h">NIVEL<b id="level">1</b></div><div class="h">VIDAS<b id="lives">❤️❤️❤️</b></div></div><div id="arena"><div id="bar"></div><div id="prompt"></div><div id="react"></div><div id="track"><div id="zone"></div><div id="needle"></div></div></div></section>
+
+<div id="result" class="ov"><div class="modal"><div class="muted">PARTIDA TERMINADA</div><div id="final" class="big">0</div><b id="record"></b><div class="stats"><div>🪙 GANADAS<b id="earned">0</b></div><div>🔥 RACHA<b id="combo">0</b></div></div><div class="acts"><button class="btn" id="cont">▶ CONTINUAR · ANUNCIO</button><button class="btn gold" id="double">🪙 X2 · ANUNCIO</button><button class="btn" id="again">↻ OTRA PARTIDA</button><button class="btn alt" id="menuB">⌂ MENÚ</button></div><div class="banner">ZONA DE BANNER</div></div></div>
+</div>
+
+<script>
+const $=x=>document.getElementById(x),arena=$("arena");
+let sv=JSON.parse(localStorage.getItem("tr")||"{}");
+sv={coins:0,best:0,theme:0,owned:[0],sound:true,vibe:true,...sv};
+const th=[["NEÓN",0,"#090b18","#171b36","#ff3d71","#ffd23f"],["OCÉANO",250,"#06131d","#0d2b3d","#00a8ff","#53e0ff"],["LAVA",500,"#190806","#3a1510","#ff4b21","#ffb020"],["MATRIX",900,"#041109","#0b2b17","#24e879","#b7ff3c"]];
+let r={};
+
+function save(){localStorage.setItem("tr",JSON.stringify(sv))}
+function apply(){let t=th[sv.theme],z=document.documentElement.style;z.setProperty("--bg",t[2]);z.setProperty("--p",t[3]);z.setProperty("--a",t[4]);z.setProperty("--g",t[5])}
+function show(x){document.querySelectorAll(".s").forEach(e=>e.classList.remove("on"));$(x).classList.add("on");ui()}
+function ui(){$("hb").textContent=sv.best;$("hc").textContent=sv.coins;$("sc").textContent=sv.coins;$("snd").classList.toggle("on",sv.sound);$("vib").classList.toggle("on",sv.vibe)}
+function tone(f=600){if(!sv.sound)return;try{let A=new(window.AudioContext||webkitAudioContext),o=A.createOscillator(),g=A.createGain();o.frequency.value=f;g.gain.value=.04;o.connect(g);g.connect(A.destination);o.start();o.stop(A.currentTime+.06)}catch(e){}}
+function buzz(n=20){if(sv.vibe&&navigator.vibrate)navigator.vibrate(n)}
+
+function store(){
+$("themes").innerHTML=th.map((t,i)=>`<div class="theme ${sv.theme==i?"sel":""}" style="background:linear-gradient(145deg,${t[3]},${t[2]})">${t[0]}<button data-i="${i}">${sv.theme==i?"✓ EQUIPADO":sv.owned.includes(i)?"USAR":"🪙 "+t[1]}</button></div>`).join("");
+$("themes").querySelectorAll("button").forEach(b=>b.onclick=()=>{let i=+b.dataset.i;if(!sv.owned.includes(i)){if(sv.coins<th[i][1])return tone(120);sv.coins-=th[i][1];sv.owned.push(i)}sv.theme=i;save();apply();ui();store()})
+}
+
+function clear(){clearTimeout(r.t);cancelAnimationFrame(r.a);(r.els||[]).forEach(e=>e.remove());r.els=[];$("react").style.display="none";$("track").style.display="none";arena.onpointerdown=null}
+function hud(){$("score").textContent=r.score;$("level").textContent=r.level;$("lives").textContent="❤️".repeat(Math.max(0,r.lives))}
+function start(){show("game");$("result").classList.remove("on");r={on:true,score:0,level:1,lives:3,streak:0,bestStreak:0,earned:0,continued:false,els:[]};hud();setTimeout(next,250)}
+function time(){return Math.max(650,1750-r.level*65)}
+
+function bar(ms){
+$("bar").style.transition="none";
+$("bar").style.width="100%";
+requestAnimationFrame(()=>{$("bar").style.transition=`width ${ms}ms linear`;$("bar").style.width="0"})
+}
+
+function win(p){
+if(!r.on)return;
+clearTimeout(r.t);
+r.score+=p+r.streak;
+r.streak++;
+r.bestStreak=Math.max(r.bestStreak,r.streak);
+r.earned+=Math.max(1,Math.floor(p/5));
+r.level=1+Math.floor(r.score/70);
+tone(780);buzz(12);hud();
+setTimeout(next,160)
+}
+
+function lose(){
+if(!r.on)return;
+clearTimeout(r.t);
+r.lives--;
+r.streak=0;
+tone(130);buzz(70);hud();
+if(r.lives<=0)return end();
+setTimeout(next,260)
+}
+
+function obj(cls,txt,size=64){
+let e=document.createElement("button");
+e.className=cls;
+e.textContent=txt;
+e.style.width=e.style.height=size+"px";
+arena.appendChild(e);
+r.els.push(e);
+let q=arena.getBoundingClientRect();
+e.style.left=8+Math.random()*Math.max(1,q.width-size-16)+"px";
+e.style.top=100+Math.random()*Math.max(1,q.height-size-125)+"px";
+return e
+}
+
+function next(){
+if(!r.on)return;
+clear();
+let m=["tap","bomb","color","react","timing"][Math.floor(Math.random()*5)];
+window["m_"+m]()
+}
+
+function m_tap(){
+$("prompt").textContent="¡TOCA EL RAYO!";
+let e=obj("obj good","⚡",Math.max(46,76-r.level));
+e.onclick=()=>win(10);
+bar(time());
+r.t=setTimeout(lose,time())
+}
+
+function m_bomb(){
+$("prompt").textContent="💣 EVITA LAS BOMBAS";
+for(let i=0;i<Math.min(3+~~(r.level/3),7);i++){let e=obj("obj bad","💣");e.onclick=lose}
+let s=obj("obj good","⭐");
+s.onclick=()=>win(14);
+bar(time()+350);
+r.t=setTimeout(lose,time()+350)
+}
+
+function m_color(){
+let c=[["AZUL","#2196f3"],["VERDE","#2ecc71"],["MORADO","#9b59b6"],["NARANJA","#ff8c32"]];
+let pick=c[Math.floor(Math.random()*4)];
+$("prompt").textContent="TOCA "+pick[0];
+c.sort(()=>Math.random()-.5).forEach((x,i)=>{
+let e=document.createElement("button");
+e.className="choice";
+e.textContent=x[0];
+e.style.background=x[1];
+e.style.width="42%";
+e.style.height="82px";
+e.style.left=(i%2?53:5)+"%";
+e.style.top=140+~~(i/2)*110+"px";
+arena.appendChild(e);
+r.els.push(e);
+e.onclick=()=>x[0]==pick[0]?win(15):lose()
+});
+bar(time()+300);
+r.t=setTimeout(lose,time()+300)
+}
+
+function m_react(){
+$("prompt").textContent="ESPERA...";
+let p=$("react"),ready=false;
+p.style.display="flex";
+p.style.background="#c83b49";
+p.textContent="NO TOQUES";
+p.onclick=()=>ready?win(18):lose();
+r.t=setTimeout(()=>{
+ready=true;
+p.style.background="var(--ok)";
+p.textContent="¡AHORA!";
+$("prompt").textContent="¡YA!";
+tone(900);
+r.t=setTimeout(lose,Math.max(600,1050-r.level*30))
+},600+Math.random()*900)
+}
+
+function m_timing(){
+$("prompt").textContent="PULSA EN VERDE";
+$("track").style.display="block";
+let st=performance.now(),dur=Math.max(650,1400-r.level*40);
+function a(n){
+let x=((n-st)%dur)/dur;
+if(~~((n-st)/dur)%2)x=1-x;
+r.x=x;
+$("needle").style.left=`calc(${x*100}% - 4px)`;
+r.a=requestAnimationFrame(a)
+}
+r.a=requestAnimationFrame(a);
+arena.onpointerdown=()=>r.x>=.42&&r.x<=.58?win(20):lose();
+bar(time()+400);
+r.t=setTimeout(lose,time()+400)
+}
+
+function end(){
+r.on=false;
+clear();
+let old=sv.best;
+sv.best=Math.max(sv.best,r.score);
+sv.coins+=r.earned;
+save();ui();
+$("final").textContent=r.score;
+$("earned").textContent=r.earned;
+$("combo").textContent=r.bestStreak;
+$("record").textContent=r.score>old?"🏆 ¡NUEVO RÉCORD!":"Récord: "+sv.best;
+$("cont").style.display=r.continued?"none":"block";
+$("double").disabled=false;
+$("result").classList.add("on")
+}
+
+$("play").onclick=start;
+$("again").onclick=start;
+$("menuB").onclick=()=>{$("result").classList.remove("on");show("home")};
+$("shopB").onclick=()=>{show("shop");store()};
+$("setB").onclick=()=>show("settings");
+document.querySelectorAll(".home").forEach(b=>b.onclick=()=>show("home"));
+$("snd").onclick=()=>{sv.sound=!sv.sound;save();ui()};
+$("vib").onclick=()=>{sv.vibe=!sv.vibe;save();ui()};
+
+$("cont").onclick=()=>{
+r.continued=true;
+r.on=true;
+r.lives=1;
+$("result").classList.remove("on");
+hud();
+setTimeout(next,250)
+};
+
+$("double").onclick=()=>{
+sv.coins+=r.earned;
+save();ui();
+$("double").disabled=true;
+$("double").textContent="✓ MONEDAS DUPLICADAS"
+};
+
+apply();
+ui();
+</script></body></html>
