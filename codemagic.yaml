@@ -6,7 +6,7 @@ workflows:
     environment:
       java: 21
       android_signing:
-        - tap_rush_keystore
+        - tap_rush
     scripts:
       - name: Install dependencies
         script: |
@@ -25,8 +25,8 @@ workflows:
           s = manifest.read_text()
           if "com.google.android.gms.ads.APPLICATION_ID" not in s:
               s, n = re.subn(
-                  r'(<application\\b[^>]*>)',
-                  r'\\1\n        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-8854680295966508~8362422277" />',
+                  r'(<application\b[^>]*>)',
+                  r'\1\n        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-8854680295966508~8362422277" />',
                   s,
                   count=1
               )
@@ -37,9 +37,13 @@ workflows:
           gradle = Path("android/app/build.gradle")
           g = gradle.read_text()
           if "CM_KEYSTORE_PATH" not in g:
-              signing = '''\n    signingConfigs {\n        release {\n            if (System.getenv()["CI"]) {\n                storeFile file(System.getenv()["CM_KEYSTORE_PATH"])\n                storePassword System.getenv()["CM_KEYSTORE_PASSWORD"]\n                keyAlias System.getenv()["CM_KEY_ALIAS"]\n                keyPassword System.getenv()["CM_KEY_PASSWORD"]\n            }\n        }\n    }\n'''
+              g = g.replace(
+                  "        release {",
+                  "        release {\n            signingConfig signingConfigs.release",
+                  1
+              )
+              signing = '''\n    signingConfigs {\n        release {\n            storeFile file(System.getenv()["CM_KEYSTORE_PATH"])\n            storePassword System.getenv()["CM_KEYSTORE_PASSWORD"]\n            keyAlias System.getenv()["CM_KEY_ALIAS"]\n            keyPassword System.getenv()["CM_KEY_PASSWORD"]\n        }\n    }\n'''
               g = g.replace("    buildTypes {", signing + "\n    buildTypes {", 1)
-              g = g.replace("        release {", "        release {\n            signingConfig signingConfigs.release", 1)
               gradle.write_text(g)
           PY
 
